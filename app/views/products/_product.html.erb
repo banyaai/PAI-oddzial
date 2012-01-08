@@ -1,0 +1,8 @@
+<tr>
+  <td><%= product.name %></td>
+  <td><%= product.prize %></td>
+  <% if !current_user.nil? %>
+    <td><%= product.amount %></td>
+    <td><%= product.amount_sent %></td>
+  <% end %>
+</tr>

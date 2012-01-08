@@ -7,6 +7,8 @@ PaiCentrala::Application.routes.draw do
 
   root :to => 'pages#home'
 
+  get "sessions/new"
+
   match '/signup', :to => 'users#new'
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
@@ -14,7 +16,7 @@ PaiCentrala::Application.routes.draw do
   match '/contact', :to => 'pages#contact'
   match '/about', :to => 'pages#about'
   match '/help', :to => 'pages#help'
-  
+  match '/send_amount', :to => 'products#send_amount'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

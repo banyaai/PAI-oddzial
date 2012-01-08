@@ -6,13 +6,9 @@
     <td>Prize</td>
     <% if !current_user.nil? %>
       <td>Amount</td>
-      <% if current_user.admin? %>
-        <td>Action</td>
-      <% end %>
+      <td>Amount sent</td>
     <% end %>
   <%= render @products %>
 </table>
 
-<% if !current_user.nil? && current_user.admin? %>
-  <%= link_to "Add product", new_product_path %>
-<% end %>
+<%= link_to "Send amount", send_amount_path %>

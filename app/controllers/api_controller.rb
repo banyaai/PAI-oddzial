@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 class ApiController < ApplicationController
 
   respond_to :json
