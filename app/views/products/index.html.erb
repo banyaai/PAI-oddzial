@@ -1,8 +1,17 @@
 <h1>All products</h1>
 
-<ul class="products">
+<table class="products">
+  <tr>
+    <td>Name</td>
+    <td>Prize</td>
+    <% if !current_user.nil? %>
+      <td>Amount</td>
+      <% if current_user.admin? %>
+        <td>Action</td>
+      <% end %>
+    <% end %>
   <%= render @products %>
-</ul>
+</table>
 
 <% if !current_user.nil? && current_user.admin? %>
   <%= link_to "Add product", new_product_path %>
