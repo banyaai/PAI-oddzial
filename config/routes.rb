@@ -1,6 +1,7 @@
 PaiCentrala::Application.routes.draw do
   get "sessions/new"
 
+  resources :products
   resources :users
   resources :sessions, :only =>[:new, :create, :destroy]
 
