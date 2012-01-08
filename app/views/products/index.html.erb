@@ -4,6 +4,6 @@
   <%= render @products %>
 </ul>
 
-<% if !current_user.nil> && current_user.admin? %>
+<% if !current_user.nil? && current_user.admin? %>
   <%= link_to "Add product", new_product_path %>
 <% end %>

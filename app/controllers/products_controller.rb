@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(params[:candidate])
+    @product = Product.new(params[:product])
     @product.amount = 0
     if @product.save
       flash[:success] = "Product added successfuly"
@@ -28,8 +28,8 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    Product.find(params[:id].destroy
-    flash[:success] = "Product destroted"
+    Product.find(params[:id]).destroy
+    flash[:success] = "Product destroyed"
     redirect_to products_path
   end
 

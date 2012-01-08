@@ -1,12 +1,12 @@
 <h1>Add new product</h1>
 
-<%= form_fpr(@product) do |f| %>
+<%= form_for(@product) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
-  <div class="field")
+  <div class="field">
     <%= f.label :prize %><br />
     <%= f.text_field :prize %>
   </div>
