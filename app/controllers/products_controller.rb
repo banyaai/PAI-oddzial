@@ -1,7 +1,5 @@
 class ProductsController < ApplicationController
 
-  respond_to :json
-
   def new
     @title = "Add product"
   end
@@ -11,12 +9,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-  # @title = "All products"
-  # @products = Product.all
-    respond_with to_client
-  end
-
-  def to_client
-    Product.all.map { |p| {"name" => p.name, "prize" => p.prize, "amount" => nil} }
+   @title = "All products"
+   @products = Product.all
   end
 end

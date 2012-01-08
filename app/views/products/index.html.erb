@@ -1,6 +1,7 @@
 <h1>All products</h1>
 
 <ul class="products">
+  Name, Prize, Amount
   <% @products.each do |product| %>
     <li>
       <%= product.name %>, <%= product.prize %>, <%=product.amount %>
