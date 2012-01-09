@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
   def send_amount
     Product.all.each do |product|
       product.amount_sent = 0 if product.amount_sent.nil?
-      amount_to_send = product.amount - product.amount_sent
+      amount_to_send = product.amount + product.amount_sent
       url = "http://pai-central.heroku.com/api/#{product.index}?amount=#{amount_to_send}"
       uri = (URI.parse(url) rescue nil)
 
