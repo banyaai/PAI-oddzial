@@ -25,7 +25,7 @@ class ProductsController < ApplicationController
 
   def index
    @title = "All products"
- #  get_products
+   get_products
    @products = Product.all
   end
 
@@ -44,7 +44,6 @@ class ProductsController < ApplicationController
         product.save
       end
     end
-    index
     redirect_to products_path
   end
 
@@ -75,7 +74,7 @@ class ProductsController < ApplicationController
         response = http.request(req)
         @data = response.body
       }
-      json = JSON.pars(@data)
+      json = JSON.parse(@data)
       @fetched_products = Array.new
       json.each do |p|
         p["index"] = p.delete("id")
