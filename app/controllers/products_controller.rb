@@ -1,6 +1,6 @@
 require 'net/http'
 class ProductsController < ApplicationController
-  before_filter :authenticate, :only => [:new, :create, :show, :send_amount]
+  before_filter :authenticate, :only => [:new, :create, :update, :show, :send_amount]
   before_filter :admin_user, :only => [:new, :create]
   
   def new
@@ -29,20 +29,23 @@ class ProductsController < ApplicationController
    @products = Product.all
   end
 
-  def send_amount
-    Product.all.each do |product|
-      product.amount_sent = 0 if product.amount_sent.nil?
-      amount_to_send = 10 #product.amount - product.amount_sent
-      url = "http://pai-central.heroku.com/api/#{product.index}?amount=#{amount_to_send}"
-      uri = (URI.parse(url) rescue nil)
+  def update
+    send_amount(params[:id])
+  end
 
-      Net::HTTP.start(uri.host, uri.port) do |http|
-        headers = {'Content-Type' => 'text/plain; charset=utf-8',
-                   'Authorization' => 'Basic dXNlcjpLM0paR0RwdEptV2VO'}
-        response = http.send_request('PUT', uri.request_uri, "", headers)
-        product.amount_sent += amount_to_send if response.code.to_i == 200
-        product.save
-      end
+  def send_amount(product_id)
+    product = Product.find(product_id)
+    product.amount_sent = 0 if product.amount_sent.nil?
+    amount_to_send = 10 #product.amount - product.amount_sent
+    url = "http://pai-central.heroku.com/api/#{product.id}?amount=#{amount_to_send}"
+    uri = (URI.parse(url) rescue nil)
+
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      headers = {'Content-Type' => 'text/plain; charset=utf-8',
+                 'Authorization' => 'Basic dXNlcjpLM0paR0RwdEptV2VO'}
+      response = http.send_request('PUT', uri.request_uri, "", headers)
+      product.amount_sent += amount_to_send if response.code.to_i == 200
+      product.save
     end
     redirect_to products_path
   end

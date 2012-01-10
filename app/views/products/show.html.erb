@@ -1,1 +1,19 @@
-<%= @product.name %>, <%= @product.prize %>, <%= @product.amount %>
+<h1>Edit product</h1>
+
+<%= form_for(@product) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <strong>Name: </strong>product.name
+  </div>
+  <div class="field">
+    <%= f.label :prize %><br />
+    <%= f.text_field :prize %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Order/Change prize" %>
+  </div>
+<% end %>
