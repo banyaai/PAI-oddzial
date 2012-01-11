@@ -53,7 +53,6 @@ class ProductsController < ApplicationController
       response = http.send_request('PUT', uri.request_uri, "", headers)
       if response.code.to_i == 200
         @product.amount += @product.amount_sent 
-#        @product.amount_sent = 0
       end
       @product.save
     end
