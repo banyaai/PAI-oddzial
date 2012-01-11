@@ -30,22 +30,32 @@ class ProductsController < ApplicationController
   end
 
   def update
-    send_amount(params[:id])
+    @product = Product.find(params[:id])
+    if @product.update_attributes(params[:product])
+      flash[:success] = "Product zaktualizowany/zamówienie złożone"
+      send_amount(@product.id)
+    else
+      @title = "Edit product"
+      render 'edit'
+    end
   end
 
   def send_amount(product_id)
-    product = Product.find(product_id)
-    product.amount_sent = 0 if product.amount_sent.nil?
-    amount_to_send = 10 #product.amount - product.amount_sent
-    url = "http://pai-central.heroku.com/api/#{product.id}?amount=#{amount_to_send}"
+    @product = Product.find(product_id)
+    @product.amount = 0 if @product.amount.nil?
+    
+    url = "http://pai-central.heroku.com/api/#{@product.id}?amount=#{@product.amount_sent}"
     uri = (URI.parse(url) rescue nil)
 
     Net::HTTP.start(uri.host, uri.port) do |http|
       headers = {'Content-Type' => 'text/plain; charset=utf-8',
                  'Authorization' => 'Basic dXNlcjpLM0paR0RwdEptV2VO'}
       response = http.send_request('PUT', uri.request_uri, "", headers)
-      product.amount_sent += amount_to_send if response.code.to_i == 200
-      product.save
+      if response.code.to_i == 200
+        @product.amount += @product.amount_sent 
+        @product.amount_sent = 0
+      end
+      @product.save
     end
     redirect_to products_path
   end
