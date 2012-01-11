@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update_attributes(params[:product])
-      flash[:success] = "Product zaktualizowany/zamówienie złożone"
+      flash[:success] = "Product has been actualized"
       send_amount(@product.id)
     else
       @title = "Edit product"
