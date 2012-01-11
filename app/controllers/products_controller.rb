@@ -44,7 +44,7 @@ class ProductsController < ApplicationController
     @product = Product.find(product_id)
     @product.amount = 0 if @product.amount.nil?
     
-    url = "http://pai-central.heroku.com/api/#{@product.id}?amount=#{@product.amount_sent}"
+    url = "http://pai-central.heroku.com/api/#{@product.id + 1}?amount=#{@product.amount_sent}"
     uri = (URI.parse(url) rescue nil)
 
     Net::HTTP.start(uri.host, uri.port) do |http|
@@ -53,7 +53,7 @@ class ProductsController < ApplicationController
       response = http.send_request('PUT', uri.request_uri, "", headers)
       if response.code.to_i == 200
         @product.amount += @product.amount_sent 
-        @product.amount_sent = 0
+#        @product.amount_sent = 0
       end
       @product.save
     end
@@ -92,7 +92,15 @@ class ProductsController < ApplicationController
       json.each do |p|
         p["index"] = p.delete("id")
         @fetched_products << Product.new(p)
-        Product.create!(p) unless exists? Product.new(p)
+        p["amount_sent"] = p["amount"]
+        p["amount"] = 0
+        unless exists? Product.new(p)
+          Product.create!(p) 
+        else
+          @product = Product.find(p["index"] - 1)
+          @product.amount_sent = p["amount_sent"]
+          @product.save
+        end
       end
       remove_destroyed_products
     end
