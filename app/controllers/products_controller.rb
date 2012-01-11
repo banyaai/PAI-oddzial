@@ -44,7 +44,7 @@ class ProductsController < ApplicationController
     @product = Product.find(product_id)
     @product.amount = 0 if @product.amount.nil?
     
-    url = "http://pai-central.heroku.com/api/#{@product.id}?amount=#{@product.amount_sent}"
+    url = "http://pai-central.heroku.com/api/#{@product.index}?amount=#{@product.amount_sent}"
     uri = (URI.parse(url) rescue nil)
 
     Net::HTTP.start(uri.host, uri.port) do |http|
