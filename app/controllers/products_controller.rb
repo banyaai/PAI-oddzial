@@ -96,7 +96,7 @@ class ProductsController < ApplicationController
         unless exists? Product.new(p)
           Product.create!(p) 
         else
-          @product = Product.find(p["index"] - 1)
+          @product = Product.find(p["index"])
           @product.amount_sent = p["amount_sent"]
           @product.save
         end
